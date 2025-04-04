@@ -3,7 +3,9 @@
 # Author: Panagiotis Chartas (t3l3machus)
 # https://github.com/t3l3machus
 
-import argparse, sys, itertools
+import os, argparse, sys, itertools
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Colors
 MAIN = '\033[38;5;50m'
@@ -166,16 +168,11 @@ for t in transformations:
 # Common Padding Values
 if (args.custom_paddings_only or args.append_padding) and not (args.common_paddings_before or args.common_paddings_after):
 	exit_with_msg('Options -ap and -cpo must be used with -cpa or -cpb.')
-	
-	
 elif (args.common_paddings_before or args.common_paddings_after) and not args.custom_paddings_only:
-	
 	try:
-		f = open('common_padding_values.txt', 'r')
-		content = f.readlines()
-		common_paddings = [val.strip() for val in content]
-		f.close()
-
+	    with open(os.path.join(script_dir, 'common_padding_values.txt'), 'r') as f:
+	    	content = f.readlines()
+	    	common_paddings = [val.strip() for val in content]
 	except:
 		exit_with_msg('File "common_padding_values.txt" not found.')
 
